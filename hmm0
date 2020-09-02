@@ -1,0 +1,54 @@
+# # HMM0. KTH EECS
+# # AI
+#
+# #
+# A= [4 ,4 ,0.2 0.5 0.3 0.0 0.1 0.4 0.4 0.1 0.2 0.0 0.4 0.4 0.2 0.3 0.0 0.5]
+# 4 3 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 0.2 0.6 0.2
+# 1 4 0.0 0.0 0.0 1.0
+#
+# A = [[0.2, 0.5, 0.3, 0.0],  ]
+
+def matrices(vals):
+     # We do this for A, then B then pi
+    rows = int(vals[0]) #get row value
+    cols = int(vals[1])
+    matrix = [[0 for x in range(cols)] for y in range(rows)]
+    r = 0
+    c = 0
+    i = 0
+    while r < rows:
+        while c < cols:
+            matrix[r][c] = float(vals[i+2])
+            c = c + 1
+            i = i + 1
+        c = 0
+        r = r + 1
+    return matrix, rows, cols
+
+
+def product_matrices(matrixA, matrixB, rowsA, colsB):
+    matrix_prod = [ [ 0 for i in range(colsB) ] for j in range(rowsA) ]
+    for i in range(len(matrixA)):
+        for j in range(len(matrixB[0])):
+            for k in range(len(matrixB)):
+                matrix_prod[i][j] += matrixA[i][k] * matrixB[k][j]
+    print(matrix_prod)
+    return matrix_prod
+
+def matrix2str(matrixX):
+    stri = ''
+    for a in
+
+file = open("sample_00.in")
+values = file.readlines()
+avals = values[0].split()
+bvals = values[1].split()
+pivals = values[2].split()
+
+A, arows, acols = matrices(avals)
+B, brows, bcols= matrices(bvals)
+PI, pirows, picols = matrices(pivals)
+
+PitimesA = product_matrices(PI,A,pirows,acols)
+final_result = product_matrices(PitimesA,B,pirows,bcols)
+
