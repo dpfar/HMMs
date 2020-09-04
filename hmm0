@@ -1,54 +1,72 @@
-# # HMM0. KTH EECS
-# # AI
-#
-# #
-# A= [4 ,4 ,0.2 0.5 0.3 0.0 0.1 0.4 0.4 0.1 0.2 0.0 0.4 0.4 0.2 0.3 0.0 0.5]
-# 4 3 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 0.2 0.6 0.2
-# 1 4 0.0 0.0 0.0 1.0
-#
-# A = [[0.2, 0.5, 0.3, 0.0],  ]
+# KTH EECS
+# DD2380 - Artificial Intelligence
+# HMM0
+# Beatrice Lovely and Daniel Pérez Felipe
 
-def matrices(vals):
-     # We do this for A, then B then pi
-    rows = int(vals[0]) #get row value
-    cols = int(vals[1])
-    matrix = [[0 for x in range(cols)] for y in range(rows)]
-    r = 0
-    c = 0
-    i = 0
-    while r < rows:
+import sys
+
+
+def data2matrix(data_string):
+    # Given a single data input corresponding to a matrix, a matrix is allocated and created
+
+    rows = int(data_string[0])  # get row value
+    cols = int(data_string[1])  # get col value
+
+    matrix = [[0 for x in range(cols)] for y in range(rows)] # Creates empty matrix
+
+    r = c = i = 0  # auxiliary variables
+
+    while r < rows:  # Matrix is filled with the given data
         while c < cols:
-            matrix[r][c] = float(vals[i+2])
+            matrix[r][c] = float(data_string[i+2])
             c = c + 1
             i = i + 1
         c = 0
         r = r + 1
-    return matrix, rows, cols
+
+    return matrix
 
 
-def product_matrices(matrixA, matrixB, rowsA, colsB):
-    matrix_prod = [ [ 0 for i in range(colsB) ] for j in range(rowsA) ]
-    for i in range(len(matrixA)):
-        for j in range(len(matrixB[0])):
-            for k in range(len(matrixB)):
-                matrix_prod[i][j] += matrixA[i][k] * matrixB[k][j]
-    print(matrix_prod)
+def product_matrices(matrixX, matrixY):
+    # Computes the product of two matrices
+    # Get cols and rows for matrix creation
+    colsY = len(matrixY[0])
+    rowsX = len(matrixX)
+    matrix_prod = [ [ 0 for i in range(colsY) ] for j in range(rowsX) ]
+    for i in range(len(matrixX)):
+        for j in range(len(matrixY[0])):
+            for k in range(len(matrixY)):
+                matrix_prod[i][j] += matrixX[i][k] * matrixY[k][j]
     return matrix_prod
 
-def matrix2str(matrixX):
-    stri = ''
-    for a in
+def matrix2str(matrix):
+# Returns a matrix in the given format( nºrows, nºcols, matrix_data)
+    aux_var = 0
+    col = len(matrix[0])  # Gets column number
+    row = len(matrix)  # Gets row number
+    data_stream = '' + str(row) + " " + str(col)
 
-file = open("sample_00.in")
-values = file.readlines()
-avals = values[0].split()
-bvals = values[1].split()
-pivals = values[2].split()
+    for r in range(len(matrix)): # We move along the rows
+        for c in range(len(matrix[0])):  # We move along the columns
+            aux_var = str(matrix[r][c])
+            data_stream += " " + aux_var
+    return data_stream
 
-A, arows, acols = matrices(avals)
-B, brows, bcols= matrices(bvals)
-PI, pirows, picols = matrices(pivals)
 
-PitimesA = product_matrices(PI,A,pirows,acols)
-final_result = product_matrices(PitimesA,B,pirows,bcols)
+if __name__ == "__main__":
+    # file = open("sample_00.in")  # TODO. PYCHARM
+    file = sys.stdin  # TODO: KATTIS
+    values = file.readlines()
+    avals = values[0].split()
+    bvals = values[1].split()
+    pivals = values[2].split()
 
+    A = data2matrix(avals)
+    B = data2matrix(bvals)
+    PI = data2matrix(pivals)
+
+    PitimesA = product_matrices(PI,A)
+    final_result = product_matrices(PitimesA,B)
+
+    final_data = matrix2str(final_result)
+    print(final_data)
